@@ -1,0 +1,38 @@
+{
+    "token": "",
+    "thumbnail": "",
+    "channelID": ,
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Referer": "https://www.fit.ba/student/login.aspx",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Origin": "https://www.fit.ba",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+        "TE": "Trailers"
+    },
+    "data": {
+        "__VIEWSTATE": "",
+        "__VIEWSTATEGENERATOR": "",
+        "__EVENTVALIDATION": "",
+        "txtBrojDosijea": "",
+        "txtLozinka": "",
+        "listInstitucija": "1",
+        "btnPrijava": "Prijava"
+        },
+    "avatars": {
+        "Iris": "https://github.com/omznc/discord-scraper/raw/main/avatars/iris.jpg",
+        "Senad": "https://github.com/omznc/discord-scraper/raw/main/avatars/senad.jpeg",
+        "Edina": "https://github.com/omznc/discord-scraper/raw/main/avatars/edina.png",
+        "Elmir": "https://github.com/omznc/discord-scraper/raw/main/avatars/elmir.png",
+        "Denis": "https://github.com/omznc/discord-scraper/raw/main/avatars/denis.png",
+        "Indira": "https://github.com/omznc/discord-scraper/raw/main/avatars/indira.png",
+        "Veldin": "https://github.com/omznc/discord-scraper/raw/main/avatars/veldin.png",
+        "Dubravka": "https://github.com/omznc/discord-scraper/raw/main/avatars/dubravka.png",
+        "default": "https://github.com/omznc/discord-scraper/raw/main/avatars/default.jpeg"
+    }
+}
+
