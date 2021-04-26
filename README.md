@@ -11,21 +11,18 @@ This is a bot that scrapes www.fit.ba/student/ and sends the latest post to a ch
 ```sh
  git clone https://github.com/omznc/discord-scraper.git
 ```
-2. Go to <a href="https://www.fit.ba/student/login.aspx">fit.ba/student/</a>.
-3. Get POST data:
-   * Open the Network tab in Inspect Element, then log-in.
-   * Right click on the first POST request, then copy as cURL.
-
-4. Paste that boy in <a href="https://curl.trillworks.com/">curl.trillworks.com/</a>.
-5. Edit `/config/config.json`:
-   * Fill in `token`, `thumbnail`, `channelID`
-   * Using step 4, do the same for `__VIEWSTATE`, `__VIEWSTATEGENERATOR`, `__EVENTVALIDATION`, `txtBrojDosijea`, and `txtLozinka`.
-6. Move `config.json` to the root directory.
-7. Install requirements with:
+2. Edit `/config/config.json`:
+   * `token` - Your bot's token.
+   * `thumbnail` - Your embed photo.
+   * `channelID` - Channel to send the message to.
+   * `txtBrojDosijea` - Username.
+   * `txtLozinka` - Password.
+3. Move `config.json` to the root directory.
+4. Install requirements with:
 ```sh
 pip install -r requirements.txt
 ```
-8. Run using:
+5. Run using:
 ```sh
-python3 start.py
+python3 bot.py
 ```

@@ -40,24 +40,22 @@ class MyClient(discord.Client):
         global data, headers, channelID
         self.runs += 1
 
-        # This really tends to break so I had to make it a try with a really wonky auto-restart.
-        n = 0
-        while n < 6:
-            try:
-                with requests.Session() as s:
-                    s.post('https://www.fit.ba/student/login.aspx', headers=headers, data=data)
-                    s = s.get('https://www.fit.ba/student/default.aspx')
-                    soup = BeautifulSoup(s.text, "lxml")
-                    _title = soup.find("a", {"id": "lnkNaslov"})
-                    title = _title.text
-                    break
+        # Gets the dynamic header data.
+        with requests.Session() as r:
+            r = r.get('https://www.fit.ba/student/login.aspx')
+            soup = BeautifulSoup(r.text, "lxml")
+            data["__VIEWSTATE"] = soup.find("input", {"id": "__VIEWSTATE"})['value']
+            data["__VIEWSTATEGENERATOR"] = soup.find("input", {"id": "__VIEWSTATEGENERATOR"})['value']
+            data["__EVENTVALIDATION"] = soup.find("input", {"id": "__EVENTVALIDATION"})['value']
 
-            except Exception as p:
-                print(f"\n{s.text}\n")
-                print(f"ERROR [Retrying {n}/5]: {p}")
-                n += 1
-                time.sleep(60)
-                
+        # Logs in and gets the title.
+        with requests.Session() as s:
+            s.post('https://www.fit.ba/student/login.aspx', headers=headers, data=data)
+            s = s.get('https://www.fit.ba/student/default.aspx')
+            soup = BeautifulSoup(s.text, "lxml")
+            _title = soup.find("a", {"id": "lnkNaslov"})
+            title = _title.text
+
         # Checks if there is a description preview.
         try:
             short_description = soup.find("div", {"class": "abstract"}).text
@@ -78,13 +76,11 @@ class MyClient(discord.Client):
             with requests.Session() as o:
                 o.post('https://www.fit.ba/student/login.aspx', headers=headers, data=data)
                 o = o.get(article_url)
-
             soup = BeautifulSoup(o.text, "lxml")
             try:
                 content = "".join([i.text for i in soup.find("div", {"id": "Panel1"}).find_all("p")])
             except:
                 content = False
-
             author = soup.find("a", {"id": "linkNapisao"}).text
             date = soup.find("span", {"id": "lblDatum"}).text
 
@@ -95,7 +91,7 @@ class MyClient(discord.Client):
                 date = datetime.strptime(date, '%d.%m.%Y %H:%M -').strftime('%-d. %B, %Y at %H:%M')
 
             # I didn't want to rewrite the code to adapt it to BS4, so I just kept it as a dict.
-            data = {"content": content,
+            postData = {"content": content,
                     "title": title, 
                     "author": author,
                     "article_url": article_url,
@@ -106,33 +102,32 @@ class MyClient(discord.Client):
             # This basically makes the bot do things.
             if "content" == False:
                 noPostDescription = "Obavijest nema teksta. Kliknite na naslov da otvorite u browser-u."
-                embed=discord.Embed(title=data["title"], url=data["article_url"], description=noPostDescription, color=0xf6f6f6)
-            elif len(data["content"])>2000:
+                embed=discord.Embed(title=postData["title"], url=postData["article_url"], description=noPostDescription, color=0xf6f6f6)
+            elif len(postData["content"])>2000:
                 if "short_description" != False:
-                    description = f"{data['short_description']} \n\nPoruka preduga. Otvorite u browseru."
+                    description = f"{postData['short_description']} \n\nPoruka preduga. Otvorite u browseru."
                 else:
                     description = "\n\nPoruka preduga. Otvorite u browseru."
 
-                embed=discord.Embed(title=data["title"], url=data["article_url"], description=description, color=0xf6f6f6)
+                embed=discord.Embed(title=postData["title"], url=postData["article_url"], description=description, color=0xf6f6f6)
             else:
-                embed=discord.Embed(title=data["title"], url=data["article_url"], description=data["content"], color=0xf6f6f6)
+                embed=discord.Embed(title=postData["title"], url=postData["article_url"], description=postData["content"], color=0xf6f6f6)
 
-            author = data["author"].split()[0]
+            author = postData["author"].split()[0]
             if author in avatars:
                 icon = avatars[author]
             else:
                  icon = avatars["default"]
 
             # Attribution. Please keep it here, thanks.
-            embed.set_footer(text=f"Posted on {data['date']}  |  github.com/omznc/discord-scraper")
+            embed.set_footer(text=f"Posted on {postData['date']}  |  github.com/omznc/discord-scraper")
             embed.set_thumbnail(url=thumbnail)
             
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(webhook_url, adapter=AsyncWebhookAdapter(session))
-                await webhook.send(content="<@&796116996000579644>", embed=embed, username=data["author"], avatar_url=icon)
+                await webhook.send(content="<@&796116996000579644>", embed=embed, username=postData["author"], avatar_url=icon)
+                print("    Message succesfully sent.")
 
-            # And finally, send the embed.
-            # await channel.send("<@&796116996000579644>", embed=embed)
         else:
             print(f"[{self.runs}] Same title, skipping...")
         
