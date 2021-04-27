@@ -12,11 +12,11 @@ This is a bot that scrapes www.fit.ba/student/ and sends the latest post to a ch
  git clone https://github.com/omznc/discord-scraper.git
 ```
 2. Edit `/config/config.json`:
-   * `token` - Your bot's token.
-   * `thumbnail` - Your embed photo.
+   * `token` - Bot token.
    * `channelID` - Channel to send the message to.
    * `txtBrojDosijea` - Username.
    * `txtLozinka` - Password.
+   * `thumbnail` - (Optional) Embed photo.
 3. Move `config.json` to the root directory.
 4. Install requirements with:
 ```sh

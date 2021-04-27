@@ -12,6 +12,7 @@ import os
 import aiohttp
 
 # pylint: disable=E0602
+
 # This checks for the config.json file and handles it accordingly.
 try:
     config = open("config.json")
@@ -121,12 +122,15 @@ class MyClient(discord.Client):
 
             # Attribution. Please keep it here, thanks.
             embed.set_footer(text=f"Posted on {postData['date']}  |  github.com/omznc/discord-scraper")
-            embed.set_thumbnail(url=thumbnail)
+
+            if thumbnail:
+                embed.set_thumbnail(url=thumbnail)
             
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(webhook_url, adapter=AsyncWebhookAdapter(session))
                 await webhook.send(content="<@&796116996000579644>", embed=embed, username=postData["author"], avatar_url=icon)
-                print("    Message succesfully sent.")
+            
+            print("Message succesfully sent.")
 
         else:
             print(f"[{self.runs}] Same title, skipping...")
