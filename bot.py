@@ -57,7 +57,7 @@ class MyClient(discord.Client):
                     s = s.get('https://www.fit.ba/student/default.aspx')
                     soup = BeautifulSoup(s.text, "lxml")
                     _title = soup.find("a", {"id": "lnkNaslov"})
-                    title = _title.text
+                    title = _title.text.strip()
 
                 # Checks if there is a description preview.
                 try:
@@ -70,7 +70,6 @@ class MyClient(discord.Client):
                 embeds = msg.embeds
                 for embed in embeds:
                     old_embed = embed.to_dict()
-
                 # Checks if it's the same post. If no, proceed.
                 if old_embed["title"] != title:
                     print(f"[{self.runs}] Different title. Posting new message...")
