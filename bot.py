@@ -132,14 +132,14 @@ class MyClient(discord.Client):
                         await webhook.send(content="<@&796116996000579644>", embed=embed, username=postData["author"], avatar_url=icon)
                     
                     print("Message succesfully sent.")
-                    time.sleep(600)
+                    await asyncio.sleep(600)
                 else:
                     print(f"[{self.runs}] Same title, skipping...")
-                    time.sleep(600)
+                    await asyncio.sleep(600)
 
             except Exception as e:
                 print(f"[{self.runs}] Failed with Exception {e}.")
-                time.sleep(600)
+                await asyncio.sleep(600)
                 pass
 
 
