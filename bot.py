@@ -35,7 +35,7 @@ class MyClient(discord.Client):
         print('Logged in as')
         print(self.user.name)
         print(self.user.id)
-        
+
     async def background(self):
         await self.wait_until_ready()
         global data, headers, channelID
@@ -132,15 +132,15 @@ class MyClient(discord.Client):
                         await webhook.send(content="<@&796116996000579644>", embed=embed, username=postData["author"], avatar_url=icon)
                     
                     print("Message succesfully sent.")
-                    await asyncio.sleep(600)
                 else:
                     print(f"[{self.runs}] Same title, skipping...")
-                    await asyncio.sleep(600)
+                
 
             except Exception as e:
                 print(f"[{self.runs}] Failed with Exception {e}.")
-                await asyncio.sleep(600)
                 pass
+            
+            await asyncio.sleep(sleepInSeconds)
 
 
 client = MyClient()
