@@ -17,6 +17,7 @@ This is a bot that scrapes www.fit.ba/student/ and sends the latest post to a ch
    * `txtBrojDosijea` - Username.
    * `txtLozinka` - Password.
    * `thumbnail` - (Optional) Embed photo.
+   * `sleepInSeconds` - (Optional) How long in seconds before it checks for changes.
 3. Move `config.json` to the root directory.
 4. Install requirements with:
 ```sh
