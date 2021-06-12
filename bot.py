@@ -23,7 +23,6 @@ finally:
     config = json.load(config)
     globals().update(config)
 
-# pylint: disable=E0602
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
